@@ -43,4 +43,7 @@ def list_kandidujicich_stran(tabulka_2):
         strany.append(kand_strana)
     return strany
 
+def zapis_do_csv():
+    print("zapsano")
+
 main(odkaz, soubor_csv)
