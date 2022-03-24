@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 import csv
 
-soubor_csv = "vysledky_bukovina.csv"
-odkaz = "https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=11&xobec=581445&xvyber=6201"
+soubor_csv = "vysledky_doksy.csv"
+odkaz = "https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=7&xobec=561495&xvyber=5101"
 
 if "https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=" and "obec=" and "vyber=" not in odkaz:
     print("Zadali jste špatný internetový odkaz, prosím postupujte přesně podle návodu v READ.ME.")
