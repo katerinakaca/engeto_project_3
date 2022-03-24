@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 import csv
 
-soubor_csv = "vysledky_doksy.csv"
-odkaz = "https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=7&xobec=561495&xvyber=5101"
+soubor_csv = "vysledky_bukovina.csv"
+odkaz = "https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=11&xobec=581445&xvyber=6201"
 
 if "https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=" and "obec=" and "vyber=" not in odkaz:
     print("Zadali jste špatný internetový odkaz, prosím postupujte přesně podle návodu v READ.ME.")
@@ -21,29 +21,32 @@ def main(odkaz: str, soubor_csv: str):
     volici_v_seznamu = list_1[3].get_text()
     vydane_obalky = list_1[4].get_text()
     platne_hlasy = list_1[7].get_text()
-    mesto = (mesto_list[2].get_text())[7:]
+    mesto = (mesto_list[2].get_text())[7:-1]
     kod_mesta = odkaz[-18:-12]
     kand_strany = list_kandidujicich_stran(tabulka_2)
-    print(
-        f"""
-        volici v seznamu: {volici_v_seznamu}
-        vydane obalky: {vydane_obalky}
-        platne hlasy: {platne_hlasy}
-        mesto: {mesto}
-        kod mesta: {kod_mesta}
-        kand strany: {kand_strany}
-    """)
-
+    slovnik = {"kód obce": kod_mesta, "název obce": mesto, "voliči v seznamu":volici_v_seznamu, "vydané obálky": vydane_obalky, "platné hlasy": platne_hlasy, "kandidující strany": kand_strany}
+    zapis_do_csv(soubor_csv, slovnik)
 
 def list_kandidujicich_stran(tabulka_2):
     strany = []
-
     for strana in tabulka_2[:]:
         kand_strana = strana.get_text()
         strany.append(kand_strana)
     return strany
 
-def zapis_do_csv():
-    print("zapsano")
+def zapis_do_csv(soubor_csv, slovnik):
+    with open(soubor_csv, "w", encoding="utf-8") as soubor:
+        writer = csv.writer(soubor)
+        for klic in slovnik.items():
+            writer.writerow(klic)
+    print("Výsledky byly zapsány do souboru csv.")
 
-main(odkaz, soubor_csv)
+
+
+if __name__ == "__main__":
+    main(odkaz, soubor_csv)
+
+
+
+
+
